@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+
+# Python egg
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Node.js dependencies (if using any)
+node_modules/
+
+# Pycache folders inside subdirectories
+**/__pycache__/
+
+# Streamlit cache
+.streamlit/
+
+# Output files
+*.sqlite3
+*.db
+*.sqlite
+*.bak
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# dotenv backup
+.env.*
