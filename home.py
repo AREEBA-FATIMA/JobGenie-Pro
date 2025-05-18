@@ -1,5 +1,6 @@
 import streamlit as st
-from pages.navbar import show_navbar
+from pages.navbar import Navbar
+from pages.footer import show_footer
 from dataclasses import dataclass
 from typing import List
 from PIL import Image
@@ -19,17 +20,16 @@ class JobGenieHomePage:
         self.load_assets()
         
     def setup_page_config(self):
-        # Convert image to base64 for page icon
-        img_path = Path("jobgenie-logo.png")  # Replace with your image path
+        img_path = Path("jobgenie-logo.png")
         if img_path.exists():
             img = Image.open(img_path)
-            img = img.resize((32, 32))  # Standard icon size
+            img = img.resize((32, 32))
             buffered = BytesIO()
             img.save(buffered, format="PNG")
             img_str = base64.b64encode(buffered.getvalue()).decode()
             page_icon = f"data:image/png;base64,{img_str}"
         else:
-            page_icon = "💼"  # Fallback to emoji if image not found
+            page_icon = "💼"
 
         st.set_page_config(
             page_title="JobGenie - Find Your Dream Job",
@@ -58,7 +58,6 @@ class JobGenieHomePage:
                 padding: 0 !important;
                 margin: 0 !important;
             }
-
             @keyframes blob {
                 0% { transform: translate(0px, 0px) scale(1); }
                 33% { transform: translate(30px, -50px) scale(1.1); }
@@ -70,7 +69,6 @@ class JobGenieHomePage:
                 50% { background-position: 100% 50%; }
                 100% { background-position: 0% 50%; }
             }
-
             .floating-circles {
                 position: fixed; top: 0; left: 0;
                 width: 100%; height: 100%;
@@ -88,7 +86,7 @@ class JobGenieHomePage:
 
             .hero-container {
                 text-align: center;
-                padding: 5rem 2rem;
+                padding: 5rem 2rem 6rem 2rem;
             }
             .gradient-text {
                 background: linear-gradient(to right, #4F46E5, #2563EB);
@@ -128,7 +126,7 @@ class JobGenieHomePage:
             }
 
             .features-section {
-                margin: 4rem auto;
+                margin: 4rem auto 8rem auto;
                 max-width: 80rem;
                 padding: 0 2rem;
             }
@@ -153,7 +151,7 @@ class JobGenieHomePage:
                 border: 1px solid #C7D2FE;
                 text-align: center;
                 max-width: 60rem;
-                margin: 3rem auto;
+                margin: 3rem auto 10rem auto;
             }
             .premium-button {
                 background: #4F46E5;
@@ -167,14 +165,13 @@ class JobGenieHomePage:
                 background: #4338CA;
             }
         </style>
-
         <div class="floating-circles">
             <div class="circle-1"></div>
             <div class="circle-2"></div>
             <div class="circle-3"></div>
         </div>
         """, unsafe_allow_html=True)
-    
+
     def render_hero_section(self):
         st.markdown("""
         <div class="hero-container">
@@ -201,19 +198,16 @@ class JobGenieHomePage:
     
     def render_features(self):
         st.markdown('<div class="features-section">', unsafe_allow_html=True)
-        
-        # Create feature cards
         cols = st.columns(3)
         for i, feature in enumerate(self.features):
             with cols[i]:
                 st.markdown(f"""
                 <div class="feature-card">
-                    <div class="feature-icon">{feature.emoji}</div>
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">{feature.emoji}</div>
                     <h3 style='font-weight: 600; margin: 0 0 0.5rem 0;'>{feature.title}</h3>
                     <p style="margin: 0;">{feature.description}</p>
                 </div>
                 """, unsafe_allow_html=True)
-        
         st.markdown('</div>', unsafe_allow_html=True)
     
     def render_premium_cta(self):
@@ -224,16 +218,23 @@ class JobGenieHomePage:
             <button class="premium-button">Explore Premium Features</button>
         </div>
         """, unsafe_allow_html=True)
-    
+
     def run(self):
         self.inject_css()
-        show_navbar(role="job_seeker", is_signed_in=False)
+        
+        # Render Navbar
+        navbar = Navbar(role="job_seeker", is_signed_in=False)
+        st.markdown(navbar.render(), unsafe_allow_html=True)
+        
+        # Render page content
         self.render_hero_section()
         self.render_search_bar()
         self.render_features()
         self.render_premium_cta()
+        
+        # Render Footer
+        show_footer()
 
-# Main execution
 if __name__ == "__main__":
     app = JobGenieHomePage()
     app.run()

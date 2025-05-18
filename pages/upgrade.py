@@ -1,5 +1,5 @@
 import streamlit as st
-from pages.navbar import show_navbar
+from pages.navbar import Navbar
 import stripe
 import os
 from dataclasses import dataclass
@@ -133,7 +133,7 @@ class PremiumUpgradeApp:
     
     def run(self):
         self.setup_page()
-        show_navbar(role="job_seeker", is_signed_in=True)
+        Navbar(role="job_seeker", is_signed_in=True)
         self.inject_styles()
         self.handle_routing()
     
